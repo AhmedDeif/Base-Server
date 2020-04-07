@@ -1,0 +1,10 @@
+{
+  "development": {
+    "url": "postgres://root:pass@postgres:5432/testDB",
+    "database": "testDB",
+    "username": "root",
+    "password": "pass",
+    "dialect": "postgres",
+    "host": "postgres"
+  }
+}
