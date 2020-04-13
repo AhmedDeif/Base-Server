@@ -1,22 +1,20 @@
 version: "3.7"
 services:
   app:
+    build:
+      context: .
+      target: developer
     container_name: express-baseServer
     restart: always
-    entrypoint: ["/bin/bash", "./entrypoint.sh"]
-    build: ./
-    depends_on:
-      - postgres
-    ports:
-      - "2000:8080"
-    command: bash -c 'while !</dev/tcp/postgres/5432; do sleep 1; done;'
     environment: 
       DATABASE_URL: postgres://user:pass@postgres:35432/testDB
-    volumes:
-      - .:/app
+    ports:
+      - "2000:8080"
+    depends_on:
+      - postgres
+    entrypoint: ["/bin/bash", "./entrypoint.sh"]
   postgres:
     image: postgres
-    restart: always
     ports:
       - "5432:5432"
     environment:
