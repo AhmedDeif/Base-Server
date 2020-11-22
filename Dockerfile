@@ -38,7 +38,7 @@ EXPOSE  ${APP_PORT}
 ################################################################################
 FROM base-image as dependencies
 
-COPY    --chown=node:node src/ $NODE_APP_DIR/src
+# COPY    --chown=node:node src/ $NODE_APP_DIR/src
 
 
 ################################################################################
@@ -64,6 +64,6 @@ FROM dependencies as production
 
 # LABEL   application_name="App-Name"
 
-ENV     NODE_ENV production
+# ENV     NODE_ENV production
 
 CMD     ["npm","start"]

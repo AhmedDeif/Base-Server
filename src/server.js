@@ -1,35 +1,38 @@
-import express from "express";
-import { PORT } from "./config/serverConfig";
-import { Logger } from "./middleware/logger";
-import bodyParser from "body-parser";
+import express from 'express';
+import bodyParser from 'body-parser';
 import passport from 'passport';
-import {strategy} from './services/AuthService';
-import { configureDatabse } from './database';
+import { PORT } from './config/serverConfig';
+import AccessLogger from './middleware/accessLogger';
+import Logger from './middleware/logger';
+import strategy from './services/AuthService';
+import configureDatabse from './database';
 import Router from './router';
 
-
 if (process.env.production === true) {
-  // start in production mode
+    // start in production mode
+    Logger.info('Starting server in PRODUCTION mode');
 } else {
     // start in dev/stage mode
+    Logger.info('Starting server in DEVELOPMENT mode');
 }
 
-export const startServer = async () => {
-    var app = express();
-	var port = process.env.PORT || PORT;
-	
-	await configureDatabse();
+const startServer = async () => {
+    const app = express();
+    const port = process.env.PORT || PORT;
 
-	app.use(bodyParser.urlencoded({ extended: false }));
+    await configureDatabse();
+
+    app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
     app.use(passport.initialize());
     passport.use(strategy);
 
-    Router.use(function(req, res, next) {
-		Logger(req, res, next)
-	});
+    app.use(AccessLogger);
+
     app.use('/api', Router);
 
     app.listen(port);
-    console.log(`Server started successfully and listening on port ${port}`);
-}
+    Logger.info(`Server started successfully and listening on port ${port}`);
+};
+
+export default startServer;

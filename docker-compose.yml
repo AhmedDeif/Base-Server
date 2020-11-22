@@ -1,23 +1,25 @@
-version: "3.7"
+version: '3.7'
 services:
-  app:
-    build:
-      context: .
-      target: developer
-    container_name: express-baseServer
-    restart: always
-    environment: 
-      DATABASE_URL: postgres://user:pass@postgres:35432/testDB
-    ports:
-      - "2000:8080"
-    depends_on:
-      - postgres
-    entrypoint: ["/bin/bash", "./entrypoint.sh"]
-  postgres:
-    image: postgres
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=pass
-      - POSTGRES_DB=testDB
+    app:
+        build:
+            context: .
+            target: developer
+        container_name: express-baseServer
+        restart: always
+        volumes:
+            - ./:/home/node/app
+        environment:
+            DATABASE_URL: postgres://user:pass@postgres:35432/testDB
+        ports:
+            - '2000:8080'
+        depends_on:
+            - postgres
+        entrypoint: ['/bin/bash', './entrypoint.sh']
+    postgres:
+        image: postgres
+        ports:
+            - '5432:5432'
+        environment:
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=pass
+            - POSTGRES_DB=testDB
