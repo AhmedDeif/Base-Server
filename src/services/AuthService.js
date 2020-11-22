@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt-nodejs';
 import { Strategy as LocalStrategy } from 'passport-local';
 import Models from '../database/models';
+import Logger from '../helpers/logger';
 
 const strategy = new LocalStrategy(
     {
@@ -15,7 +16,7 @@ const strategy = new LocalStrategy(
         // verify password
         bcrypt.compare(password, user.password, (err, res) => {
             if (!res) {
-                console.log('Could not match password');
+                Logger.info('Could not match password');
                 return done(null, false, {
                     message: 'Invalid Password',
                 });

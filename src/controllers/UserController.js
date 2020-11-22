@@ -4,6 +4,7 @@ import Models from '../database/models';
 import isAuthenticated from '../middleware/isAuthenticated';
 import { SECRET, AUDIENCE, ISSUER } from '../config/serverConfig';
 import { findUserById, getAllUsers, createUser } from '../services/UserService';
+import Logger from '../helpers/logger';
 
 const userRouter = express.Router({ mergeParams: true });
 
@@ -19,7 +20,7 @@ userRouter.get('/', isAuthenticated);
 
 userRouter.get('/', async (req, res, next) => {
     try {
-        console.log(`User with id: ${req.user} requested to list all users.`);
+        Logger.info(`User with id: ${req.user} requested to list all users.`);
         const users = await getAllUsers();
         res.json(users);
     } catch (e) {
@@ -40,7 +41,7 @@ userRouter.get('/:userId', async (req, res, next) => {
 
 userRouter.put('/:userId', async (req, res) => {
     const id = req.params.userId;
-    console.log(`Finding user with id: ${id}`);
+    Logger.info(`Finding user with id: ${id}`);
     const { count } = await Models.User.findAndCountAll({
         where: {
             id,
@@ -65,9 +66,9 @@ userRouter.post('/', async (req, res) => {
             audience: AUDIENCE,
             issuer: ISSUER,
         });
-        console.log(`created a token for user: ${token}`);
+        Logger.info(`created a token for user: ${token}`);
         user.token = token;
-        console.log(user);
+        Logger.info(user);
         res.send({
             ...user.toJSON(),
             token,

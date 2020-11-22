@@ -1,4 +1,5 @@
 import Models from '../models';
+import Logger from '../../helpers/logger';
 
 const users = [
     {
@@ -31,7 +32,7 @@ const users = [
 
 const seedUsers = async () => {
     await Models.User.bulkCreate(users);
-    console.log('Added all users to database ........');
+    Logger.info('Added all users to database ........');
 };
 
 export default seedUsers;

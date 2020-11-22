@@ -1,5 +1,5 @@
 import morgan from 'morgan';
-import Logger from './logger';
+import Logger from '../helpers/logger';
 
 function jsonFormat(tokens, req, res) {
     return JSON.stringify({

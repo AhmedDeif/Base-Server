@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 import { PORT } from './config/serverConfig';
 import AccessLogger from './middleware/accessLogger';
-import Logger from './middleware/logger';
+import Logger from './helpers/logger';
 import strategy from './services/AuthService';
 import configureDatabse from './database';
 import Router from './router';

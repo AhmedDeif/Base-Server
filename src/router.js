@@ -1,6 +1,6 @@
 import express from 'express';
-// import AuthRouter from './controllers/AuthController';
-// import UserRouter from './controllers/UserController';
+import AuthRouter from './controllers/AuthController';
+import UserRouter from './controllers/UserController';
 import HealthController from './controllers/HealthController';
 
 const router = express.Router();
@@ -13,11 +13,10 @@ const router = express.Router();
 
 // UserRouter.use(function(req, res, next) {
 //     logger(req, res, next)
-//     console.log("adding middleware to router");
 // });
 
-// router.use('/users', UserRouter);
-// router.use('/auth', AuthRouter);
+router.use('/users', UserRouter);
+router.use('/auth', AuthRouter);
 router.use('/health', HealthController);
 
 export default router;

@@ -13,7 +13,7 @@ authRouter.post('/', async (req, res, next) => {
                 return next(err);
             }
             if (!user) {
-                return res.json({ msg: 'could not login' });
+                return res.json({ message: 'Could not login' });
             }
             return res.json(user);
         })(req, res, next);
