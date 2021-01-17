@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
+import path from 'path';
 import { PORT } from './config/serverConfig';
 import AccessLogger from './middleware/accessLogger';
 import Logger from './helpers/logger';
@@ -20,6 +21,8 @@ const startServer = async () => {
     const app = express();
     const port = process.env.PORT || PORT;
 
+    app.use('/doc', express.static(`${__dirname}/apidoc`));
+
     await configureDatabse();
 
     app.use(bodyParser.urlencoded({ extended: false }));
@@ -30,6 +33,10 @@ const startServer = async () => {
     app.use(AccessLogger);
 
     app.use('/api', Router);
+
+    app.get('/doc', async (req, res) => {
+        res.sendFile(path.join(`${__dirname}/apidoc/index.html`));
+    });
 
     app.listen(port);
     Logger.info(`Server started successfully and listening on port ${port}`);

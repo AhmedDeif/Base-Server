@@ -13,12 +13,14 @@ authRouter.post('/', async (req, res, next) => {
                 return next(err);
             }
             if (!user) {
-                return res.json({ message: 'Could not login' });
+                return res.status(401).json({ message: 'Could not login' });
             }
             return res.json(user);
         })(req, res, next);
     } else {
-        return res.json({ message: 'A user with this email does not exist' });
+        return res
+            .status(401)
+            .json({ message: 'A user with this email does not exist' });
     }
 });
 

@@ -1,0 +1,8 @@
+{
+    "name": "Base Server",
+    "description": "Base Server API Documentation",
+    "title": "API Documentation",
+    "apidoc": {
+        "title": "API"
+      }
+}

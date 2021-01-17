@@ -1,7 +1,7 @@
 import express from 'express';
-import AuthRouter from './controllers/AuthController';
-import UserRouter from './controllers/UserController';
-import HealthController from './controllers/HealthController';
+import AuthRouter from './controllers/v1/AuthController';
+import UserRouter from './controllers/v1/UserController';
+import HealthController from './controllers/v1/HealthController';
 
 const router = express.Router();
 
@@ -15,8 +15,8 @@ const router = express.Router();
 //     logger(req, res, next)
 // });
 
-router.use('/users', UserRouter);
-router.use('/auth', AuthRouter);
+router.use('/v1/users', UserRouter);
+router.use('/v1/auth', AuthRouter);
 router.use('/health', HealthController);
 
 export default router;

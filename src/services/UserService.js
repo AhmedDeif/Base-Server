@@ -18,6 +18,14 @@ export async function findUserById(id) {
     }
 }
 
+export async function deleteUserById(id) {
+    try {
+        await Models.User.destroy({ where: { id } });
+    } catch (error) {
+        return error;
+    }
+}
+
 export async function getAllUsers() {
     try {
         const users = await Models.User.findAll();
@@ -28,19 +36,40 @@ export async function getAllUsers() {
 }
 
 export async function createUser(user) {
+    const { password } = user;
+    const { email } = user;
+    const { username } = user;
+    if (!password) {
+        throw new Error('Missing user password');
+    }
+    if (!email) {
+        throw new Error('Missing user email');
+    }
+    if (!username) {
+        throw new Error('Missing username');
+    }
+    if (password && email && username) {
+        const newUser = await Models.User.create({
+            email,
+            password,
+            username,
+        });
+        return newUser;
+    }
+}
+export async function updateUser(id, data) {
     try {
-        const { password } = user;
-        const { email } = user;
-        const { username } = user;
-        if (password && email && username) {
-            const newUser = await Models.User.create({
-                email,
-                password,
-                username,
-            });
-            return newUser;
-        }
-        return Error('Missing Data');
+        await Models.User.update(
+            {
+                ...data,
+            },
+            {
+                where: { id },
+                returning: true,
+            }
+        );
+        const user = await findUserById(id);
+        return user.toJSON();
     } catch (error) {
         return error;
     }
